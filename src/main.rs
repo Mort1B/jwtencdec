@@ -14,20 +14,20 @@ struct Claims {
 
 fn main() {
     // CREATE A JSON WEB TOKEN
-    let key = b"secret";
+    let key = b"supermegasecretkey";
     let my_iat = Utc::now().timestamp();
-    // exp date 5 seconds into the future
+    // exp date 10 seconds into the future
     let my_exp = Utc::now()
-        .checked_add_signed(Duration::seconds(5))
+        .checked_add_signed(Duration::seconds(10))
         .expect("invalid timestamp")
         .timestamp();
 
     // create claims object
     let my_claims = Claims {
-        sub: "h@d.com".to_owned(),
+        sub: "me@gmail.com".to_owned(),
         iat: my_iat as usize,
         exp: my_exp as usize,
-        test: "hello world".to_owned(),
+        test: "testmessage".to_owned(),
     };
 
     // encode the token, passing header, claims object and a key
@@ -40,7 +40,7 @@ fn main() {
         Err(_) => panic!(),
     };
 
-    println!("Token: {}", token);
+    println!("Token:\n {}", token);
 
     // After uncommenting this program will wait for 10 secs so JWT will be invalid and program will panic
     // println!("Waiting");
@@ -58,5 +58,5 @@ fn main() {
             panic!();
         }
     };
-    println!("\nToken Data: {:?}", token_data);
+    println!("\nToken Data:\n {:?}", token_data);
 }
